@@ -12,12 +12,14 @@ const Welcome = () => {
           style={{ backgroundColor: "#212529", color: "whitesmoke" }}
         >
           <Card.Body className='text-align-center'>
-            <h1 style={{ display: "inline" }}>Welcome to Leave-Sys!!</h1>
+            <h1 style={{ display: "inline", fontSize: "3.5vw" }}>
+              Welcome to Leave-Sys!!
+            </h1>
             <Image
               src='https://upload.wikimedia.org/wikipedia/en/thumb/d/d7/Bangalore_Institute_of_Technology_logo.png/220px-Bangalore_Institute_of_Technology_logo.png'
               style={{
-                width: "5%",
-                height: "5%",
+                width: "5vw",
+                height: "auto",
                 float: "right",
                 objectFit: "cover",
                 margin: "0"

@@ -6,6 +6,7 @@ import SignIn from "./SignIn";
 import { AuthProvider } from "../Auth";
 import ApplyLeave from "./ApplyLeave";
 import AlternateArrangement from "./AlternateArrangement";
+import CheckLeaves from "./CheckLeaves";
 
 function App() {
   return (
@@ -24,6 +25,9 @@ function App() {
             component={AlternateArrangement}
           >
             <AlternateArrangement />
+          </PrivateRoute>
+          <PrivateRoute exact path='/checkLeaves' component={CheckLeaves}>
+            <CheckLeaves />
           </PrivateRoute>
           <Route path='/signin'>
             <SignIn />

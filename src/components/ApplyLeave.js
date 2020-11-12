@@ -29,6 +29,10 @@ const ApplyLeave = () => {
 
   const submitHandler = async e => {
     e.preventDefault();
+    const prop = {
+      from_date: data.from,
+      to_date: data.to
+    };
     setData(data);
     // const differenceInDays = data.to.getTime() - data.from.getTime();
     const url = `http://localhost/api/apply/${currentUser.email}/${data.from}/${data.to}/${data.type}/${data.reason}/${data.contactAdress}`;
@@ -38,7 +42,7 @@ const ApplyLeave = () => {
         alert("Too many leaves applied for mentioned type");
       } else {
         alert("Leave applied successfully");
-        history.push("/alternateArrangement", { text: "hello world" });
+        history.push("/alternateArrangement", prop);
       }
     });
   };

@@ -9,7 +9,8 @@ import {
   ButtonGroup,
   Navbar,
   Spinner,
-  Image
+  Image,
+  Toast
 } from "react-bootstrap";
 import app from "../firebase";
 import { AuthContext } from "../Auth";
@@ -85,7 +86,12 @@ const Home = () => {
             >
               Apply Leave
             </Button>
-            <Button className='mr-5'>Check Leaves</Button>
+            <Button
+              className='mr-5'
+              onClick={() => history.push("/checkLeaves")}
+            >
+              Check Leaves
+            </Button>
           </ButtonGroup>
           {isHOD && (
             <>
@@ -100,6 +106,19 @@ const Home = () => {
     return (
       <>
         <Nav />
+        <Container className='d-flex align-items-center justify-content-center mt-5'>
+          <Toast
+            style={{
+              textAlign: "center",
+              backgroundColor: "#212529",
+              color: "whitesmoke"
+            }}
+          >
+            <Toast.Body>
+              Please refresh or check your internet connection
+            </Toast.Body>
+          </Toast>
+        </Container>
         <Container
           className='d-flex align-items-center justify-content-center'
           style={{ minHeight: "100vh" }}
