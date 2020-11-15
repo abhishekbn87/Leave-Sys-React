@@ -92,11 +92,21 @@ const Home = () => {
             >
               Check Leaves
             </Button>
+            <Button
+              className='mr-5'
+              onClick={() => history.push("/facultyDetails")}
+            >
+              Faculty Details
+            </Button>
           </ButtonGroup>
           {isHOD && (
             <>
-              <Button className='mr-5'>Manage Leaves</Button>
-              <Button>Faculty Details</Button>
+              <Button
+                className='mr-5'
+                onClick={() => history.push("/facultyDetails", true)}
+              >
+                Manage Leaves
+              </Button>
             </>
           )}
         </Container>

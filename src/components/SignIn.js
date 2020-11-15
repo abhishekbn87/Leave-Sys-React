@@ -4,6 +4,7 @@ import { AuthContext } from "../Auth";
 import { Card, Form, Button, Container } from "react-bootstrap";
 import app from "../firebase";
 import Welcome from "./Welcome";
+import Footer from "./Footer";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -62,6 +63,7 @@ const SignIn = () => {
             </Card.Body>
           </Card>
         </div>
+        <Footer />
       </Container>
     </>
   );

@@ -7,6 +7,7 @@ import { AuthProvider } from "../Auth";
 import ApplyLeave from "./ApplyLeave";
 import AlternateArrangement from "./AlternateArrangement";
 import CheckLeaves from "./CheckLeaves";
+import FacultyDetails from "./FacultyDetails";
 
 function App() {
   return (
@@ -28,6 +29,9 @@ function App() {
           </PrivateRoute>
           <PrivateRoute exact path='/checkLeaves' component={CheckLeaves}>
             <CheckLeaves />
+          </PrivateRoute>
+          <PrivateRoute exact path='/facultyDetails' component={FacultyDetails}>
+            <FacultyDetails />
           </PrivateRoute>
           <Route path='/signin'>
             <SignIn />
