@@ -13,8 +13,8 @@ const CheckLeaves = () => {
   const prop = useLocation().state;
   prop ? (currentUser = prop) : ({ currentUser } = loggedUser);
   const getData = async () => {
-    const url = `http://localhost/api/check/${currentUser.email}`;
-    const url2 = `http://localhost/api/remainingLeaves/${currentUser.email}`;
+    const url = `https://leavesysbit.pythonanywhere.com/api/check/${currentUser.email}`;
+    const url2 = `https://leavesysbit.pythonanywhere.com/api/remainingLeaves/${currentUser.email}`;
     let response = await axios.get(url);
     response = response.data;
     console.log(response);

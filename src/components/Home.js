@@ -19,7 +19,7 @@ import Nav from "../components/Nav";
 
 const Home = () => {
   const { currentUser } = useContext(AuthContext);
-  const url = `http://localhost/api/Faculty/${currentUser.email}`;
+  const url = `https://leavesysbit.pythonanywhere.com/api/Faculty/${currentUser.email}`;
   const history = useHistory();
   var data;
 

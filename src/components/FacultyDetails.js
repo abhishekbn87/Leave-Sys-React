@@ -26,7 +26,7 @@ const FacultyDetails = () => {
 
   const getData = async () => {
     let response = await axios.get(
-      `http://localhost/api/Lecturers/${currentUser.email}`
+      `https://leavesysbit.pythonanywhere.com/api/Lecturers/${currentUser.email}`
     );
     response = response.data;
     setData(response);

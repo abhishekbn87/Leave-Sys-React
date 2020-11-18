@@ -35,7 +35,7 @@ const ApplyLeave = () => {
     };
     setData(data);
     // const differenceInDays = data.to.getTime() - data.from.getTime();
-    const url = `http://localhost/api/apply/${currentUser.email}/${data.from}/${data.to}/${data.type}/${data.reason}/${data.contactAdress}`;
+    const url = `https://leavesysbit.pythonanywhere.com/api/apply/${currentUser.email}/${data.from}/${data.to}/${data.type}/${data.reason}/${data.contactAdress}`;
     const obj = { data };
     await axios.post(url, data).then(response => {
       if (response.data == false) {
@@ -49,7 +49,7 @@ const ApplyLeave = () => {
 
   const getOptions = async () => {
     let options = await axios.get(
-      `http://localhost/api/leaveTypes/${currentUser.email}`
+      `https://leavesysbit.pythonanywhere.com/api/leaveTypes/${currentUser.email}`
     );
     options = options.data;
     console.log(options);

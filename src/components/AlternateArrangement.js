@@ -28,7 +28,7 @@ const AlternateArrangement = () => {
 
   const getFaculty = async () => {
     let facultyNames = await axios.get(
-      `http://localhost/api/Lecturers/${currentUser.email}`
+      `https://leavesysbit.pythonanywhere.com/api/Lecturers/${currentUser.email}`
     );
     facultyNames = facultyNames.data;
     setFaculty(facultyNames);
@@ -80,7 +80,7 @@ const AlternateArrangement = () => {
     obj.time = timeRef.current.value;
     obj.faculty = facultyRef.current.value;
     obj.section = secRef.current.value;
-    const url = `http://localhost/api/alternate/${currentUser.email}/${obj.date}/${obj.semester}/${obj.section}/${obj.subject}/${obj.time}/${obj.faculty}`;
+    const url = `https://leavesysbit.pythonanywhere.com/api/alternate/${currentUser.email}/${obj.date}/${obj.semester}/${obj.section}/${obj.subject}/${obj.time}/${obj.faculty}`;
     obj = { obj };
     axios.post(url, obj).then(response => {
       console.log(response);
