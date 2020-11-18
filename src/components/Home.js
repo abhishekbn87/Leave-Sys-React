@@ -98,6 +98,9 @@ const Home = () => {
             >
               Faculty Details
             </Button>
+            <Button className='mr-5' onClick={() => history.push("/checkAlt")}>
+              Check Aternate Arrangements
+            </Button>
           </ButtonGroup>
           {isHOD && (
             <>

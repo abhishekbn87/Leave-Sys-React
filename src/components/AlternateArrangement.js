@@ -53,6 +53,7 @@ const AlternateArrangement = () => {
   const [data, setData] = useState([]);
   const dateRef = useRef();
   const semRef = useRef();
+  const secRef = useRef();
   const subRef = useRef();
   const timeRef = useRef();
   const facultyRef = useRef();
@@ -68,6 +69,7 @@ const AlternateArrangement = () => {
     let obj = {
       date: "",
       semester: "",
+      section: "",
       subject: "",
       time: "",
       faculty: ""
@@ -77,11 +79,17 @@ const AlternateArrangement = () => {
     obj.subject = subRef.current.value;
     obj.time = timeRef.current.value;
     obj.faculty = facultyRef.current.value;
-    const url = `http://localhost/api/alternate/${currentUser.email}/${obj.date}/${obj.semester}/${obj.subject}/${obj.time}/${obj.faculty}`;
+    obj.section = secRef.current.value;
+    const url = `http://localhost/api/alternate/${currentUser.email}/${obj.date}/${obj.semester}/${obj.section}/${obj.subject}/${obj.time}/${obj.faculty}`;
     obj = { obj };
     axios.post(url, obj).then(response => {
       console.log(response);
-      if (response.status == 200) alert("Alternate Arrangement done!!");
+      if (response.status == 200)
+        alert(
+          "Alternate Arrangement done!! We will let " +
+            facultyRef.current.value +
+            " know"
+        );
     });
   };
 
@@ -125,6 +133,12 @@ const AlternateArrangement = () => {
                           <option>7</option>
                           <option>8</option>
                         </Form.Control>
+                      </Form.Group>
+                    </Col>
+                    <Col>
+                      <Form.Group>
+                        <Form.Label>Section : </Form.Label>
+                        <Form.Control ref={secRef}></Form.Control>
                       </Form.Group>
                     </Col>
                     <Col>

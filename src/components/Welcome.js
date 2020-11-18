@@ -1,18 +1,29 @@
 import React from "react";
 import { Container, Card, Image, Heading } from "react-bootstrap";
+import logo from "../assets/Leave-Sys_Logo.png";
 const Welcome = () => {
   return (
     <>
       <Container
         fluid
-        style={{ backgroundColor: "#212529", color: "whitesmoke" }}
+        style={{ backgroundColor: "#000000", color: "whitesmoke" }}
       >
         <Card
           className=' w-100'
-          style={{ backgroundColor: "#212529", color: "whitesmoke" }}
+          style={{ backgroundColor: "#000000", color: "whitesmoke" }}
         >
           <Card.Body className='text-align-center'>
-            <h1 style={{ display: "inline", fontSize: "3.5vw" }}>
+            <Image
+              src={logo}
+              style={{ marginRight: "2%", marginBottom: "2%" }}
+            />
+            <h1
+              style={{
+                display: "inline",
+                fontSize: "3.5vw",
+                textAlign: "center"
+              }}
+            >
               Welcome to Leave-Sys!!
             </h1>
             <Image

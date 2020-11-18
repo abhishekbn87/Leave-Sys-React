@@ -7,10 +7,11 @@ import { useLocation } from "react-router-dom";
 
 const CheckLeaves = () => {
   const [data, setData] = useState([]);
+  const loggedUser = useContext(AuthContext);
   const [remaining, setRemaining] = useState([]);
   var currentUser;
   const prop = useLocation().state;
-  prop ? (currentUser = prop) : ({ currentUser } = useContext(AuthContext));
+  prop ? (currentUser = prop) : ({ currentUser } = loggedUser);
   const getData = async () => {
     const url = `http://localhost/api/check/${currentUser.email}`;
     const url2 = `http://localhost/api/remainingLeaves/${currentUser.email}`;
