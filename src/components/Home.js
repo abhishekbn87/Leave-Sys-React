@@ -19,7 +19,7 @@ import Nav from "../components/Nav";
 
 const Home = () => {
   const { currentUser } = useContext(AuthContext);
-  const url = `https://leavesysbit.pythonanywhere.com/api/Faculty/${currentUser.email}`;
+  const url = `http://localhost/api/Faculty/${currentUser.email}`;
   const history = useHistory();
   var data;
 
@@ -52,6 +52,7 @@ const Home = () => {
         <Container
           className='d-flex align-items-center justify-content-center w-100 mb-0'
           style={{ marginTop: "3%", width: "100%" }}
+          fluid
         >
           <Card
             className='d-flex align-items-center justify-content-center w-100'
@@ -64,8 +65,8 @@ const Home = () => {
             <Image
               src={img}
               style={{
-                width: "200px",
-                height: "300px",
+                width: "300px",
+                height: "500px",
                 marginBottom: "4%",
                 marginTop: "4%",
                 objectFit: "cover"
@@ -78,6 +79,7 @@ const Home = () => {
         <Container
           className='d-flex align-items-center justify-content-center'
           style={{ marginTop: "4%", width: "fit-content", marginBottom: "10%" }}
+          fluid
         >
           <ButtonGroup className='ml-5'>
             <Button
@@ -109,6 +111,12 @@ const Home = () => {
                 onClick={() => history.push("/facultyDetails", true)}
               >
                 Manage Leaves
+              </Button>
+              <Button
+                className='mr-5'
+                onClick={() => history.push("/leavesToday", true)}
+              >
+                Check Leaves Applied Today
               </Button>
             </>
           )}

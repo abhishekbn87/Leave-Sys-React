@@ -9,6 +9,7 @@ import AlternateArrangement from "./AlternateArrangement";
 import CheckLeaves from "./CheckLeaves";
 import FacultyDetails from "./FacultyDetails";
 import CheckAlt from "./CheckAlt";
+import LeavesToday from "./LeavesToday";
 
 function App() {
   return (
@@ -36,6 +37,9 @@ function App() {
           </PrivateRoute>
           <PrivateRoute exact path='/checkAlt' component={CheckAlt}>
             <CheckAlt />
+          </PrivateRoute>
+          <PrivateRoute exact path='/leavesToday' component={LeavesToday}>
+            <LeavesToday />
           </PrivateRoute>
           <Route path='/signin'>
             <SignIn />

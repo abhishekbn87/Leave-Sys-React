@@ -18,17 +18,14 @@ const AlternateArrangement = () => {
   const history = useHistory();
   console.log(currentUser.email);
   console.log(useLocation().state.from_date, useLocation().state.to_date);
-  const dates = {
-    from: new Date(useLocation().state.from_date),
-    to: new Date(useLocation().state.to_date)
-  };
+  const dates = useLocation().state;
   console.log(dates);
 
   const [faculty, setFaculty] = useState([]);
 
   const getFaculty = async () => {
     let facultyNames = await axios.get(
-      `https://leavesysbit.pythonanywhere.com/api/Lecturers/${currentUser.email}`
+      `http://localhost/api/Lecturers/${currentUser.email}`
     );
     facultyNames = facultyNames.data;
     setFaculty(facultyNames);
@@ -36,18 +33,12 @@ const AlternateArrangement = () => {
 
   useEffect(getFaculty, []);
 
-  const getDates = (start, end) => {
-    for (
-      var arr = [], dt = new Date(start);
-      dt <= end;
-      dt.setDate(dt.getDate() + 1)
-    ) {
-      arr.push(new Date(dt));
-    }
-    return arr;
-  };
+  const datesArray = [];
+  dates.map(m => {
+    datesArray.push(new Date(m));
+  });
 
-  const datesArray = getDates(dates.from, dates.to);
+  console.log(datesArray);
 
   const [fields, setFields] = useState([{ num: 1, value: null }]);
   const [data, setData] = useState([]);
@@ -80,7 +71,7 @@ const AlternateArrangement = () => {
     obj.time = timeRef.current.value;
     obj.faculty = facultyRef.current.value;
     obj.section = secRef.current.value;
-    const url = `https://leavesysbit.pythonanywhere.com/api/alternate/${currentUser.email}/${obj.date}/${obj.semester}/${obj.section}/${obj.subject}/${obj.time}/${obj.faculty}`;
+    const url = `http://localhost/api/alternate/${currentUser.email}/${obj.date}/${obj.semester}/${obj.section}/${obj.subject}/${obj.time}/${obj.faculty}`;
     obj = { obj };
     axios.post(url, obj).then(response => {
       console.log(response);
@@ -111,7 +102,7 @@ const AlternateArrangement = () => {
                     <Col>
                       <Form.Group>
                         <Form.Label>Date : </Form.Label>
-                        <Form.Control as='select' ref={dateRef}>
+                        <Form.Control as='select' ref={dateRef} required>
                           <option></option>
                           {datesArray.map(m => {
                             return <option>{m.toDateString()}</option>;
@@ -122,7 +113,7 @@ const AlternateArrangement = () => {
                     <Col>
                       <Form.Group>
                         <Form.Label>Semester : </Form.Label>
-                        <Form.Control as='select' ref={semRef}>
+                        <Form.Control as='select' ref={semRef} required>
                           <option></option>
                           <option>1</option>
                           <option>2</option>
@@ -138,19 +129,19 @@ const AlternateArrangement = () => {
                     <Col>
                       <Form.Group>
                         <Form.Label>Section : </Form.Label>
-                        <Form.Control ref={secRef}></Form.Control>
+                        <Form.Control ref={secRef} required></Form.Control>
                       </Form.Group>
                     </Col>
                     <Col>
                       <Form.Group>
                         <Form.Label>Subject : </Form.Label>
-                        <Form.Control ref={subRef}></Form.Control>
+                        <Form.Control ref={subRef} required></Form.Control>
                       </Form.Group>
                     </Col>
                     <Col>
                       <Form.Group>
                         <Form.Label>Time : </Form.Label>
-                        <Form.Control as='select' ref={timeRef}>
+                        <Form.Control as='select' ref={timeRef} required>
                           <option></option>
                           <option>08:00 - 09:00</option>
                           <option>09:00 - 10:00</option>
@@ -169,7 +160,7 @@ const AlternateArrangement = () => {
                     <Col>
                       <Form.Group>
                         <Form.Label>Faculty : </Form.Label>
-                        <Form.Control as='select' ref={facultyRef}>
+                        <Form.Control as='select' ref={facultyRef} required>
                           <option></option>
                           {faculty.map(f => {
                             return <option>{f.name}</option>;

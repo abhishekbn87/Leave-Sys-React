@@ -11,12 +11,12 @@ const CheckAlt = () => {
 
   const getData = async () => {
     let response1 = await axios.get(
-      `https://leavesysbit.pythonanywhere.com/api/fromAlt/${currentUser.email}`
+      `http://localhost/api/fromAlt/${currentUser.email}`
     );
     response1 = response1.data;
     setTo(response1);
     let response2 = await axios.get(
-      `https://leavesysbit.pythonanywhere.com/api/toAlt/${currentUser.email}`
+      `http://localhost/api/toAlt/${currentUser.email}`
     );
     response2 = response2.data;
     setFrom(response2);

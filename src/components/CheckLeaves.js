@@ -13,8 +13,8 @@ const CheckLeaves = () => {
   const prop = useLocation().state;
   prop ? (currentUser = prop) : ({ currentUser } = loggedUser);
   const getData = async () => {
-    const url = `https://leavesysbit.pythonanywhere.com/api/check/${currentUser.email}`;
-    const url2 = `https://leavesysbit.pythonanywhere.com/api/remainingLeaves/${currentUser.email}`;
+    const url = `http://localhost/api/check/${currentUser.email}`;
+    const url2 = `http://localhost/api/remainingLeaves/${currentUser.email}`;
     let response = await axios.get(url);
     response = response.data;
     console.log(response);
@@ -23,6 +23,7 @@ const CheckLeaves = () => {
     response2 = response2.data;
     setRemaining(response2);
   };
+
   useEffect(getData, []);
   console.log(data);
   return (
@@ -58,6 +59,7 @@ const CheckLeaves = () => {
               <th>Type of leave</th>
               <th>Reason</th>
               <th>Contact Address</th>
+              <th>Approved</th>
             </tr>
           </thead>
           <tbody>
@@ -69,6 +71,19 @@ const CheckLeaves = () => {
                   <td>{m.leavetype}</td>
                   <td>{m.reason}</td>
                   <td>{m.contact}</td>
+                  {m.approved === "Yes" ? (
+                    <td>
+                      <a
+                        href={`http://localhost/api/download/${currentUser.email}/${m.nodays}/${m.from_date}`}
+                        target='_blank'
+                        download
+                      >
+                        <Button>Download Approval</Button>
+                      </a>
+                    </td>
+                  ) : (
+                    <td>Pending...</td>
+                  )}
                 </tr>
               );
             })}

@@ -9,7 +9,7 @@ import { useHistory } from "react-router-dom";
 const Nav = () => {
   const { currentUser } = useContext(AuthContext);
   const history = useHistory();
-  const url = `https://leavesysbit.pythonanywhere.com/api/nav/${currentUser.email}`;
+  const url = `http://localhost/api/nav/${currentUser.email}`;
   const [name, setName] = useState(null);
   const [img, setImg] = useState(null);
 
