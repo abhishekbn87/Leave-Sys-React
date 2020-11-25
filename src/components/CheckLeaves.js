@@ -43,7 +43,6 @@ const CheckLeaves = () => {
           variant='dark'
           style={{
             textAlign: "center",
-            opacity: "75%",
             border: "2px solid white"
           }}
         >
@@ -78,7 +77,9 @@ const CheckLeaves = () => {
                         target='_blank'
                         download
                       >
-                        <Button>Download Approval</Button>
+                        <Button style={{ opacity: "100" }}>
+                          Download Approval
+                        </Button>
                       </a>
                     </td>
                   ) : (
@@ -104,7 +105,7 @@ const CheckLeaves = () => {
           responsive
           hover
           variant='dark'
-          style={{ textAlign: "center", marginBottom: "5%", opacity: "75%" }}
+          style={{ textAlign: "center", marginBottom: "5%" }}
         >
           <thead
             style={{

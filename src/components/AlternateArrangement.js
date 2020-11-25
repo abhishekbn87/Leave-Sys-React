@@ -42,12 +42,23 @@ const AlternateArrangement = () => {
 
   const [fields, setFields] = useState([{ num: 1, value: null }]);
   const [data, setData] = useState([]);
+  const [subjects, setSubjects] = useState([]);
   const dateRef = useRef();
   const semRef = useRef();
   const secRef = useRef();
   const subRef = useRef();
   const timeRef = useRef();
   const facultyRef = useRef();
+
+  const getSubjects = async () => {
+    if (semRef.current.value) {
+      let response = await axios.get(
+        `http://localhost/api/subjects/${semRef.current.value}`
+      );
+      response = response.data;
+      setSubjects(response);
+    }
+  };
 
   const addCard = () => {
     const values = [...fields];
@@ -85,6 +96,7 @@ const AlternateArrangement = () => {
   };
 
   console.log(data);
+  console.log(subjects);
   return (
     <>
       <Nav />
@@ -113,7 +125,12 @@ const AlternateArrangement = () => {
                     <Col>
                       <Form.Group>
                         <Form.Label>Semester : </Form.Label>
-                        <Form.Control as='select' ref={semRef} required>
+                        <Form.Control
+                          as='select'
+                          ref={semRef}
+                          required
+                          onChange={() => getSubjects()}
+                        >
                           <option></option>
                           <option>1</option>
                           <option>2</option>
@@ -129,13 +146,26 @@ const AlternateArrangement = () => {
                     <Col>
                       <Form.Group>
                         <Form.Label>Section : </Form.Label>
-                        <Form.Control ref={secRef} required></Form.Control>
+                        <Form.Control ref={secRef} required as='select'>
+                          <option>A</option>
+                          <option>B</option>
+                          <option>C</option>
+                        </Form.Control>
                       </Form.Group>
                     </Col>
                     <Col>
                       <Form.Group>
                         <Form.Label>Subject : </Form.Label>
-                        <Form.Control ref={subRef} required></Form.Control>
+                        <Form.Control ref={subRef} required as='select'>
+                          <option></option>
+                          {subjects.map(f => {
+                            return (
+                              <option>
+                                {f.subjectCode} - {f.subject}
+                              </option>
+                            );
+                          })}
+                        </Form.Control>
                       </Form.Group>
                     </Col>
                     <Col>

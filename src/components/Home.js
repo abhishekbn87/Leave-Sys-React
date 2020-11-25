@@ -33,15 +33,10 @@ const Home = () => {
     data = await axios.get(url);
     data = data.data;
     console.log(data);
-    const file = data[0].fid + ".jpg";
     setName(data[0].name);
     setDesignation(data[0].designation);
     if (data[0].designation === "Prof & Head") setIsHOD(true);
-    const storageRef = app.storage().ref();
-    const fileRef = storageRef.child(file);
-    const fileUrl = await fileRef.getDownloadURL();
-    console.log(fileUrl);
-    setImg(fileUrl);
+    setImg(data[0].url);
   };
 
   useEffect(getData, []);
@@ -78,7 +73,12 @@ const Home = () => {
         </Container>
         <Container
           className='d-flex align-items-center justify-content-center'
-          style={{ marginTop: "4%", width: "fit-content", marginBottom: "10%" }}
+          style={{
+            marginTop: "4%",
+            width: "fit-content",
+            marginBottom: "10%",
+            padding: "2%"
+          }}
           fluid
         >
           <ButtonGroup className='ml-5'>

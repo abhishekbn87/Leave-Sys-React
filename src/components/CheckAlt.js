@@ -43,7 +43,6 @@ const CheckAlt = () => {
           variant='dark'
           style={{
             textAlign: "center",
-            opacity: "75%",
             border: "2px solid white"
           }}
         >
@@ -94,7 +93,6 @@ const CheckAlt = () => {
           variant='dark'
           style={{
             textAlign: "center",
-            opacity: "75%",
             border: "2px solid white"
           }}
         >
