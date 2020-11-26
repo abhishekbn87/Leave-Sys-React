@@ -10,7 +10,6 @@ import CheckLeaves from "./CheckLeaves";
 import FacultyDetails from "./FacultyDetails";
 import CheckAlt from "./CheckAlt";
 import LeavesToday from "./LeavesToday";
-import NonTeachingSignIn from "./NonTeachingSignin";
 
 function App() {
   return (
