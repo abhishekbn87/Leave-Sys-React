@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import axios from "axios";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import {
   Button,
   Container,
@@ -33,20 +33,25 @@ const Home = () => {
     data = await axios.get(url);
     data = data.data;
     console.log(data);
-    setName(data[0].name);
-    setDesignation(data[0].designation);
-    if (data[0].designation === "Prof & Head") setIsHOD(true);
-    setImg(data[0].url);
+    try {
+      setName(data[0].name);
+      setDesignation(data[0].designation);
+      if (data[0].designation === "Prof & Head") setIsHOD(true);
+      setImg(data[0].url);
+    } catch {
+      window.location.reload();
+    }
   };
 
   useEffect(getData, []);
-  if (designation)
+
+  if (name) {
     return (
       <Router>
         <Nav />
         <Container
           className='d-flex align-items-center justify-content-center w-100 mb-0'
-          style={{ marginTop: "3%", width: "100%" }}
+          style={{ marginTop: "3%" }}
           fluid
         >
           <Card
@@ -54,7 +59,7 @@ const Home = () => {
             style={{
               padding: "1rem",
               backgroundColor: "teal",
-              color: "mistyrose"
+              color: "whitesmoke"
             }}
           >
             <Image
@@ -63,6 +68,7 @@ const Home = () => {
                 width: "300px",
                 height: "500px",
                 marginBottom: "4%",
+                borderRadius: "1rem",
                 marginTop: "4%",
                 objectFit: "cover"
               }}
@@ -75,7 +81,6 @@ const Home = () => {
           className='d-flex align-items-center justify-content-center'
           style={{
             marginTop: "4%",
-            width: "fit-content",
             marginBottom: "10%",
             padding: "2%"
           }}
@@ -123,7 +128,7 @@ const Home = () => {
         </Container>
       </Router>
     );
-  else {
+  } else {
     return (
       <>
         <Nav />
