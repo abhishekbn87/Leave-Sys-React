@@ -9,7 +9,8 @@ import {
   Card,
   Navbar,
   Button,
-  FormLabel
+  FormLabel,
+  FormControl
 } from "react-bootstrap";
 import Nav from "./Nav";
 import { AuthContext } from "../Auth";
@@ -24,14 +25,24 @@ const ApplyLeave = () => {
   });
 
   const [leaveTypes, setLeaveTypes] = useState([]);
+  const [showRadio, setShowRadio] = useState(false);
+  const [showToDate, setShowToDate] = useState(true);
   const history = useHistory();
   const { currentUser } = useContext(AuthContext);
 
   const submitHandler = async e => {
     e.preventDefault();
+    var flag = await axios.get(
+      `http://localhost/api/checkTeaching/${currentUser.email}`
+    );
+    flag = flag.data;
     setData(data);
     // const differenceInDays = data.to.getTime() - data.from.getTime();
-    const url = `http://localhost/api/apply/${currentUser.email}/${data.from}/${data.to}/${data.type}/${data.reason}/${data.contactAdress}`;
+    const url = `http://localhost/api/apply/${currentUser.email}/${
+      data.from
+    }/${data.to || data.from}/${data.type}/${data.reason}/${
+      data.contactAdress
+    }/${!showToDate}`;
     const obj = { data };
     await axios.post(url, data).then(response => {
       if (response.data == false) {
@@ -40,7 +51,8 @@ const ApplyLeave = () => {
         alert("Leave applied successfully");
         console.log(response.data);
         const prop = response.data[2];
-        history.push("/alternateArrangement", prop);
+        if (flag) history.push("/alternateArrangement", prop);
+        else history.push("/");
       }
     });
   };
@@ -78,21 +90,17 @@ const ApplyLeave = () => {
                 />
               </FormGroup>
               <FormGroup>
-                <Form.Label>To : </Form.Label>
-                <Form.Control
-                  type='date'
-                  value={data.to}
-                  onChange={e => {
-                    setData({ ...data, to: e.target.value });
-                  }}
-                />
-              </FormGroup>
-              <FormGroup>
                 <Form.Label>Type : </Form.Label>
                 <Form.Control
                   as='select'
                   value={data.type}
                   onChange={e => {
+                    console.log(e.target.value);
+                    if (e.target.value == "Casual Leave") setShowRadio(true);
+                    else {
+                      setShowRadio(false);
+                      setShowToDate(true);
+                    }
                     setData({ ...data, type: e.target.value });
                   }}
                 >
@@ -101,7 +109,44 @@ const ApplyLeave = () => {
                     return <option key={m.lid}>{m.description}</option>;
                   })}
                 </Form.Control>
+                {showRadio && (
+                  <Form.Group
+                    onChange={e => {
+                      console.log(e.target.value);
+                      if (e.target.value == "halfDay") setShowToDate(false);
+                      else setShowToDate(true);
+                    }}
+                  >
+                    <Form.Check
+                      inline
+                      label='Full Day'
+                      type='radio'
+                      name='subtype'
+                      value='fullDay'
+                    />
+                    <Form.Check
+                      inline
+                      label='Half Day'
+                      type='radio'
+                      name='subtype'
+                      value='halfDay'
+                    />
+                  </Form.Group>
+                )}
               </FormGroup>
+              {showToDate && (
+                <FormGroup>
+                  <Form.Label>To : </Form.Label>
+                  <Form.Control
+                    type='date'
+                    value={data.to}
+                    onChange={e => {
+                      setData({ ...data, to: e.target.value });
+                    }}
+                  />
+                </FormGroup>
+              )}
+
               <FormGroup>
                 <Form.Label>Reason :</Form.Label>
                 <Form.Control

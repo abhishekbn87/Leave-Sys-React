@@ -45,8 +45,8 @@ const FacultyDetails = () => {
   };
 
   useEffect(getData, []);
-  // console.log(data);
-  console.log(imgs);
+  console.log(data);
+  // console.log(imgs);
 
   const getImg = fid => {
     // console.log("Called with " + fid);
@@ -72,47 +72,48 @@ const FacultyDetails = () => {
         }}
       >
         {data.map(m => {
-          return (
-            <Grid item xs={4} style={{ padding: "1rem" }}>
-              <Card
-                style={{
-                  backgroundColor: "teal",
-                  color: "whitesmoke",
-                  padding: "2rem"
-                }}
-              >
-                <Card.Body>
-                  <Image
-                    src={m.url}
-                    style={{
-                      width: "200px",
-                      height: "300px",
-                      marginBottom: "4%",
-                      marginTop: "4%",
-                      objectFit: "cover"
-                    }}
-                  />
-                  <h5 style={{ fontSize: "1.5vw" }}>{m.name}</h5>
-                  <p>{m.designation}</p>
-                  <p>Email : {m.email}</p>
-                  <p>Phone : {m.phone}</p>
-                  {fromHOD && (
-                    <Button
-                      style={{ backgroundColor: "#212529" }}
-                      onClick={() => {
-                        history.push("/checkLeaves", {
-                          flag: true,
-                          email: m.email
-                        });
+          if (m.fid)
+            return (
+              <Grid item xs={4} style={{ padding: "1rem" }}>
+                <Card
+                  style={{
+                    backgroundColor: "teal",
+                    color: "whitesmoke",
+                    padding: "2rem"
+                  }}
+                >
+                  <Card.Body>
+                    <Image
+                      src={m.url}
+                      style={{
+                        width: "200px",
+                        height: "300px",
+                        marginBottom: "4%",
+                        marginTop: "4%",
+                        objectFit: "cover"
                       }}
-                    >
-                      See Leaves
-                    </Button>
-                  )}
-                </Card.Body>
-              </Card>
-            </Grid>
-          );
+                    />
+                    <h5 style={{ fontSize: "1.5vw" }}>{m.name}</h5>
+                    <p>{m.designation}</p>
+                    <p>Email : {m.email}</p>
+                    <p>Phone : {m.phone}</p>
+                    {fromHOD && (
+                      <Button
+                        style={{ backgroundColor: "#212529" }}
+                        onClick={() => {
+                          history.push("/checkLeaves", {
+                            flag: true,
+                            email: m.email
+                          });
+                        }}
+                      >
+                        See Leaves
+                      </Button>
+                    )}
+                  </Card.Body>
+                </Card>
+              </Grid>
+            );
         })}
       </Grid>
     </>

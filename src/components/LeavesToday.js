@@ -25,6 +25,7 @@ const LeavesToday = () => {
   };
 
   useEffect(getData, []);
+  console.log(data);
   return (
     <>
       <Nav />
@@ -63,23 +64,24 @@ const LeavesToday = () => {
           </thead>
           <tbody>
             {data.map(m => {
-              return (
-                <tr>
-                  <td>{m.name}</td>
-                  <td>{m.type}</td>
-                  <td>{m.date}</td>
-                  <td>{m.reason}</td>
-                  {m.approved ? (
-                    <td>Approved</td>
-                  ) : (
-                    <td>
-                      <Button onClick={() => clickHandler(m.name, m.type)}>
-                        Approve
-                      </Button>
-                    </td>
-                  )}
-                </tr>
-              );
+              if (m.type)
+                return (
+                  <tr>
+                    <td>{m.name}</td>
+                    <td>{m.type}</td>
+                    <td>{m.date}</td>
+                    <td>{m.reason}</td>
+                    {m.approved ? (
+                      <td>Approved</td>
+                    ) : (
+                      <td>
+                        <Button onClick={() => clickHandler(m.name, m.type)}>
+                          Approve
+                        </Button>
+                      </td>
+                    )}
+                  </tr>
+                );
             })}
           </tbody>
         </Table>

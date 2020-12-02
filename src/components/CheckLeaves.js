@@ -63,30 +63,31 @@ const CheckLeaves = () => {
           </thead>
           <tbody>
             {data.map(m => {
-              return (
-                <tr>
-                  <td>{m.from_date}</td>
-                  <td>{m.nodays}</td>
-                  <td>{m.leavetype}</td>
-                  <td>{m.reason}</td>
-                  <td>{m.contact}</td>
-                  {m.approved === "Yes" ? (
-                    <td>
-                      <a
-                        href={`http://localhost/api/download/${currentUser.email}/${m.nodays}/${m.from_date}`}
-                        target='_blank'
-                        download
-                      >
-                        <Button style={{ opacity: "100" }}>
-                          Download Approval
-                        </Button>
-                      </a>
-                    </td>
-                  ) : (
-                    <td>Pending...</td>
-                  )}
-                </tr>
-              );
+              if (m.from_date)
+                return (
+                  <tr>
+                    <td>{m.from_date}</td>
+                    <td>{m.nodays}</td>
+                    <td>{m.leavetype}</td>
+                    <td>{m.reason}</td>
+                    <td>{m.contact}</td>
+                    {m.approved === "Yes" ? (
+                      <td>
+                        <a
+                          href={`http://localhost/api/download/${currentUser.email}/${m.nodays}/${m.from_date}`}
+                          target='_blank'
+                          download
+                        >
+                          <Button style={{ opacity: "100" }}>
+                            Download Approval
+                          </Button>
+                        </a>
+                      </td>
+                    ) : (
+                      <td>Pending...</td>
+                    )}
+                  </tr>
+                );
             })}
           </tbody>
         </Table>

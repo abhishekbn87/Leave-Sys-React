@@ -63,16 +63,17 @@ const CheckAlt = () => {
           </thead>
           <tbody>
             {to.map(m => {
-              return (
-                <tr>
-                  <td>{m.date}</td>
-                  <td>{m.sem}</td>
-                  <td>{m.subject}</td>
-                  <td>{m.time}</td>
-                  <td>{m.email}</td>
-                  <td>{m.name}</td>
-                </tr>
-              );
+              if (m.sem)
+                return (
+                  <tr>
+                    <td>{m.date}</td>
+                    <td>{m.sem}</td>
+                    <td>{m.subject}</td>
+                    <td>{m.time}</td>
+                    <td>{m.email}</td>
+                    <td>{m.name}</td>
+                  </tr>
+                );
             })}
           </tbody>
         </Table>
@@ -113,16 +114,17 @@ const CheckAlt = () => {
           </thead>
           <tbody>
             {from.map(m => {
-              return (
-                <tr>
-                  <td>{m.date}</td>
-                  <td>{m.sem}</td>
-                  <td>{m.subject}</td>
-                  <td>{m.time}</td>
-                  <td>{m.email}</td>
-                  <td>{m.name}</td>
-                </tr>
-              );
+              if (m.sem)
+                return (
+                  <tr>
+                    <td>{m.date}</td>
+                    <td>{m.sem}</td>
+                    <td>{m.subject}</td>
+                    <td>{m.time}</td>
+                    <td>{m.email}</td>
+                    <td>{m.name}</td>
+                  </tr>
+                );
             })}
           </tbody>
         </Table>

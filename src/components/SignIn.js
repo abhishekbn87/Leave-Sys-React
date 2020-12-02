@@ -5,6 +5,7 @@ import { Card, Form, Button, Container } from "react-bootstrap";
 import app from "../firebase";
 import Welcome from "./Welcome";
 import Footer from "./Footer";
+import "../../src/signin.css";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -27,14 +28,14 @@ const SignIn = () => {
     return <Redirect to='/' />;
   }
   return (
-    <>
+    <section className='signin'>
       <Welcome />
       <Container
         className='d-flex align-items-center justify-content-center'
         style={{ minHeight: "100vh" }}
       >
         <div className='w-100' style={{ maxWidth: "400px" }}>
-          <Card>
+          <Card style={{ backgroundColor: "#BBDEFB", boxShadow: "1rem" }}>
             <Card.Body>
               <h2 className='text-center mb-4'>Sign In</h2>
               <Form onSubmit={signInHandler}>
@@ -65,7 +66,7 @@ const SignIn = () => {
         </div>
         <Footer />
       </Container>
-    </>
+    </section>
   );
 };
 

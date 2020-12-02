@@ -20,8 +20,10 @@ const Welcome = () => {
             <h1
               style={{
                 display: "inline",
+                marginLeft: "2%",
                 fontSize: "3.5vw",
-                textAlign: "center"
+                textAlign: "center",
+                fontFamily: "Satisfy"
               }}
             >
               Welcome to Leave-Sys!!

@@ -27,25 +27,32 @@ const Home = () => {
   const [name, setName] = useState(null);
   const [designation, setDesignation] = useState(null);
   const [isHOD, setIsHOD] = useState(false);
-  const [spinner, setSpinner] = useState(true);
-
+  const [isNonTeaching, setIsNonTeaching] = useState(false);
   const getData = async () => {
     data = await axios.get(url);
     data = data.data;
-    console.log(data);
-    try {
+    var flag = await axios.get(
+      `http://localhost/api/checkTeaching/${currentUser.email}`
+    );
+    flag = flag.data;
+    if (!flag) setIsNonTeaching(true);
+    if (data[0].designation) {
       setName(data[0].name);
       setDesignation(data[0].designation);
       if (data[0].designation === "Prof & Head") setIsHOD(true);
       setImg(data[0].url);
-    } catch {
-      window.location.reload();
+    } else {
+      console.log("Caught");
+      setTimeout(() => {
+        window.location.reload();
+      }, 500);
     }
   };
 
   useEffect(getData, []);
+  console.log(name, designation, url);
 
-  if (name) {
+  if (designation) {
     return (
       <Router>
         <Nav />
@@ -58,7 +65,7 @@ const Home = () => {
             className='d-flex align-items-center justify-content-center w-100'
             style={{
               padding: "1rem",
-              backgroundColor: "teal",
+              backgroundColor: "#5499C7",
               color: "whitesmoke"
             }}
           >
@@ -73,7 +80,7 @@ const Home = () => {
                 objectFit: "cover"
               }}
             />
-            <p>Welcome , {name}</p>
+            <h4>Welcome , {name}</h4>
             <p>{designation}</p>
           </Card>
         </Container>
@@ -105,9 +112,14 @@ const Home = () => {
             >
               Faculty Details
             </Button>
-            <Button className='mr-5' onClick={() => history.push("/checkAlt")}>
-              Check Aternate Arrangements
-            </Button>
+            {!isNonTeaching && (
+              <Button
+                className='mr-5'
+                onClick={() => history.push("/checkAlt")}
+              >
+                Check Aternate Arrangements
+              </Button>
+            )}
           </ButtonGroup>
           {isHOD && (
             <>

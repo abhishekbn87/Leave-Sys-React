@@ -5,6 +5,7 @@ import app from "../firebase";
 import { AuthContext } from "../Auth";
 import logo from "../assets/Leave-Sys_Logo.png";
 import { useHistory } from "react-router-dom";
+import axios from "axios";
 
 const Nav = () => {
   const { currentUser } = useContext(AuthContext);
@@ -14,12 +15,13 @@ const Nav = () => {
   const [img, setImg] = useState(null);
 
   const getName = async () => {
-    const data = await fetch(url).then(response => response.json());
-    setName(data[0].name);
-    setImg(data[0].url);
+    var navData = await axios.get(url);
+    navData = navData.data;
+    setName(navData[0].name);
+    setImg(navData[0].url);
   };
 
-  useEffect(getName, []);
+  useEffect(getName, [name, img]);
   return (
     <Router>
       <Navbar bg='dark' variant='dark'>
