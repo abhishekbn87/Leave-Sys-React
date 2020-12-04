@@ -10,6 +10,8 @@ import CheckLeaves from "./CheckLeaves";
 import FacultyDetails from "./FacultyDetails";
 import CheckAlt from "./CheckAlt";
 import LeavesToday from "./LeavesToday";
+import SignUp from "./SignUp";
+import Register from "./Register";
 
 function App() {
   return (
@@ -40,6 +42,12 @@ function App() {
           </PrivateRoute>
           <PrivateRoute exact path='/leavesToday' component={LeavesToday}>
             <LeavesToday />
+          </PrivateRoute>
+          <PrivateRoute path='/signup' component={SignUp}>
+            <SignUp />
+          </PrivateRoute>
+          <PrivateRoute path='/register' component={Register}>
+            <Register />
           </PrivateRoute>
           <Route path='/signin'>
             <SignIn />

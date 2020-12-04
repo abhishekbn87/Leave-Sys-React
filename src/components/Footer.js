@@ -21,7 +21,11 @@ const Footer = () => {
         <Card.Body style={{ textAlign: "center" }}>
           <footer>
             <p
-              style={{ display: "inline", marginTop: "2%", fontSize: "1.5vw" }}
+              style={{
+                display: "inline",
+                marginTop: "2rem",
+                fontSize: "2vw"
+              }}
             >
               Created for the Computer Science and Engg department , BIT
             </p>
@@ -32,7 +36,7 @@ const Footer = () => {
                 height: "auto",
                 float: "right",
                 objectFit: "cover",
-                margin: "0"
+                marginTop: "0.4rem"
               }}
             />
           </footer>

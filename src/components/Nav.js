@@ -24,27 +24,42 @@ const Nav = () => {
   useEffect(getName, [name, img]);
   return (
     <Router>
-      <Navbar bg='dark' variant='dark'>
+      <Navbar
+        bg='dark'
+        variant='dark'
+        className='d-flex justify-content-center align-items-center'
+      >
         <Image
           src={logo}
-          style={{ marginRight: "2%", cursor: "pointer", borderRadius: "5%" }}
+          style={{
+            marginRight: "1rem",
+            cursor: "pointer",
+            borderRadius: "5%",
+            width: "5vw",
+            height: "auto"
+          }}
           onClick={() => history.push("/")}
         />
-        <Navbar.Text style={{ color: "whitesmoke" }}>
+        <p style={{ color: "whitesmoke", fontSize: "1vw", marginTop: "1rem" }}>
           Signed In as : {name}
-        </Navbar.Text>
+        </p>
         <Navbar.Collapse className='justify-content-end'>
           <Image
             src={img}
             style={{
-              width: "100px",
-              height: "100px",
-              marginRight: "2%",
+              width: "7vw",
+              height: "7vw",
+              marginRight: "1rem",
               borderRadius: "50%",
               objectFit: "cover"
             }}
           />
-          <Button onClick={() => app.auth().signOut()}>Sign Out</Button>
+          <Button
+            onClick={() => app.auth().signOut()}
+            style={{ marginRight: "0.5rem", fontSize: "1vw" }}
+          >
+            Sign Out
+          </Button>
         </Navbar.Collapse>
       </Navbar>
     </Router>

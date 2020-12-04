@@ -45,7 +45,7 @@ const Home = () => {
       console.log("Caught");
       setTimeout(() => {
         window.location.reload();
-      }, 500);
+      }, 125);
     }
   };
 
@@ -80,64 +80,49 @@ const Home = () => {
                 objectFit: "cover"
               }}
             />
-            <h4>Welcome , {name}</h4>
-            <p>{designation}</p>
+            <h4 style={{ fontSize: "2.5vw" }}>Welcome , {name}</h4>
+            <p style={{ fontSize: "2.5vw" }}>{designation}</p>
           </Card>
         </Container>
-        <Container
-          className='d-flex align-items-center justify-content-center'
+        <section
           style={{
-            marginTop: "4%",
-            marginBottom: "10%",
-            padding: "2%"
+            margin: "1.5rem",
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+            gap: "1rem",
+            padding: "1%"
           }}
-          fluid
         >
-          <ButtonGroup className='ml-5'>
-            <Button
-              className='mr-5'
-              onClick={() => history.push("/applyLeave")}
-            >
-              Apply Leave
+          <Button onClick={() => history.push("/applyLeave")}>
+            Apply Leave
+          </Button>
+          <Button onClick={() => history.push("/checkLeaves")}>
+            Check Leaves
+          </Button>
+          <Button onClick={() => history.push("/facultyDetails")}>
+            Faculty Details
+          </Button>
+          {!isNonTeaching && (
+            <Button onClick={() => history.push("/checkAlt")}>
+              Check Alternate Arrangements
             </Button>
-            <Button
-              className='mr-5'
-              onClick={() => history.push("/checkLeaves")}
-            >
-              Check Leaves
-            </Button>
-            <Button
-              className='mr-5'
-              onClick={() => history.push("/facultyDetails")}
-            >
-              Faculty Details
-            </Button>
-            {!isNonTeaching && (
-              <Button
-                className='mr-5'
-                onClick={() => history.push("/checkAlt")}
-              >
-                Check Aternate Arrangements
-              </Button>
-            )}
-          </ButtonGroup>
-          {isHOD && (
-            <>
-              <Button
-                className='mr-5'
-                onClick={() => history.push("/facultyDetails", true)}
-              >
-                Manage Leaves
-              </Button>
-              <Button
-                className='mr-5'
-                onClick={() => history.push("/leavesToday", true)}
-              >
-                Check Leaves Applied Today
-              </Button>
-            </>
           )}
-        </Container>
+          {isHOD && (
+            <Button onClick={() => history.push("/facultyDetails", true)}>
+              Manage Leaves
+            </Button>
+          )}
+          {isHOD && (
+            <Button onClick={() => history.push("/leavesToday")}>
+              Check Leaves Applied Today
+            </Button>
+          )}
+          {isHOD && (
+            <Button onClick={() => history.push("/signup")}>
+              Sign Up New Faculty
+            </Button>
+          )}
+        </section>
       </Router>
     );
   } else {

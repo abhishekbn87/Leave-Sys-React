@@ -110,7 +110,7 @@ const ApplyLeave = () => {
                   })}
                 </Form.Control>
                 {showRadio && (
-                  <Form.Group
+                  <FormGroup
                     onChange={e => {
                       console.log(e.target.value);
                       if (e.target.value == "halfDay") setShowToDate(false);
@@ -131,7 +131,7 @@ const ApplyLeave = () => {
                       name='subtype'
                       value='halfDay'
                     />
-                  </Form.Group>
+                  </FormGroup>
                 )}
               </FormGroup>
               {showToDate && (

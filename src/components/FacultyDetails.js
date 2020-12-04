@@ -61,61 +61,60 @@ const FacultyDetails = () => {
   return (
     <>
       <Nav />
-      <Grid
-        container
-        spacing={3}
+      <section
         style={{
-          marginTop: "5%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center"
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(500px, 1fr))",
+          gap: "1rem",
+          margin: "1rem"
         }}
       >
         {data.map(m => {
           if (m.fid)
             return (
-              <Grid item xs={4} style={{ padding: "1rem" }}>
-                <Card
-                  style={{
-                    backgroundColor: "teal",
-                    color: "whitesmoke",
-                    padding: "2rem"
-                  }}
-                >
-                  <Card.Body>
-                    <Image
-                      src={m.url}
-                      style={{
-                        width: "200px",
-                        height: "300px",
-                        marginBottom: "4%",
-                        marginTop: "4%",
-                        objectFit: "cover"
+              <Card
+                style={{
+                  backgroundColor: "teal",
+                  marginRight: "1rem",
+                  color: "whitesmoke",
+                  padding: "0.5rem",
+                  maxWidth: "100vw"
+                }}
+              >
+                <Card.Body>
+                  <Image
+                    src={m.url}
+                    style={{
+                      width: "200px",
+                      height: "300px",
+                      marginBottom: "4%",
+                      marginTop: "4%",
+                      objectFit: "cover",
+                      borderRadius: "10px"
+                    }}
+                  />
+                  <h5>{m.name}</h5>
+                  <p>{m.designation}</p>
+                  <p>Email : {m.email}</p>
+                  <p>Phone : {m.phone}</p>
+                  {fromHOD && (
+                    <Button
+                      style={{ backgroundColor: "#212529" }}
+                      onClick={() => {
+                        history.push("/checkLeaves", {
+                          flag: true,
+                          email: m.email
+                        });
                       }}
-                    />
-                    <h5 style={{ fontSize: "1.5vw" }}>{m.name}</h5>
-                    <p>{m.designation}</p>
-                    <p>Email : {m.email}</p>
-                    <p>Phone : {m.phone}</p>
-                    {fromHOD && (
-                      <Button
-                        style={{ backgroundColor: "#212529" }}
-                        onClick={() => {
-                          history.push("/checkLeaves", {
-                            flag: true,
-                            email: m.email
-                          });
-                        }}
-                      >
-                        See Leaves
-                      </Button>
-                    )}
-                  </Card.Body>
-                </Card>
-              </Grid>
+                    >
+                      See Leaves
+                    </Button>
+                  )}
+                </Card.Body>
+              </Card>
             );
         })}
-      </Grid>
+      </section>
     </>
   );
 };

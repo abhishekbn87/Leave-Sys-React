@@ -15,13 +15,18 @@ const Welcome = () => {
           <Card.Body className='text-align-center'>
             <Image
               src={logo}
-              style={{ marginRight: "2%", marginBottom: "2%" }}
+              style={{
+                marginRight: "2%",
+                marginBottom: "2%",
+                width: "7vw",
+                height: "auto"
+              }}
             />
             <h1
               style={{
                 display: "inline",
-                marginLeft: "2%",
-                fontSize: "3.5vw",
+                marginLeft: "2rem",
+                fontSize: "4vw",
                 textAlign: "center",
                 fontFamily: "Satisfy"
               }}
@@ -35,6 +40,7 @@ const Welcome = () => {
                 height: "auto",
                 float: "right",
                 objectFit: "cover",
+                marginTop: "0.2rem",
                 margin: "0"
               }}
             />
