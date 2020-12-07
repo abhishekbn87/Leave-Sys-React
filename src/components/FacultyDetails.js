@@ -7,7 +7,7 @@ import {
   Col,
   Button
 } from "react-bootstrap";
-import Grid from "@material-ui/core/Grid";
+import Grow from "@material-ui/core/Grow";
 import Nav from "./Nav";
 import axios from "axios";
 import { AuthContext } from "../Auth";

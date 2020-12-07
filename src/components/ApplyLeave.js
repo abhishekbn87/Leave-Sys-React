@@ -143,6 +143,7 @@ const ApplyLeave = () => {
                     onChange={e => {
                       setData({ ...data, to: e.target.value });
                     }}
+                    min={data.from}
                   />
                 </FormGroup>
               )}

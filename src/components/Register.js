@@ -1,12 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Nav from "./Nav";
 import { useHistory, useLocation } from "react-router-dom";
-import { Form, Button, Container, Card, FormGroup } from "react-bootstrap";
+import {
+  Form,
+  Button,
+  Container,
+  Card,
+  FormGroup,
+  Image
+} from "react-bootstrap";
+import upload from "../assets/upload.png";
+
 import axios from "axios";
 
 const Register = () => {
   const newUser = useLocation().state;
+  const hiddenFileInput = useRef(null);
   const history = useHistory();
+  const [selectedFile, setSelectedFile] = useState(null);
   const [type, setType] = useState(null);
   const [name, setName] = useState(null);
   const [designation, setDesignation] = useState(null);
@@ -18,7 +29,11 @@ const Register = () => {
   const [exists, setExists] = useState(false);
 
   const checkExists = fid => {
-    var check = fids.includes(fid);
+    try {
+      var check = fids.includes(fid);
+    } catch {
+      getFIDs();
+    }
     setExists(check);
   };
 
@@ -28,25 +43,41 @@ const Register = () => {
     setFids(fids);
   };
 
+  const handleClick = e => {
+    hiddenFileInput.current.click();
+  };
+
   const submitHandler = async e => {
     e.preventDefault();
-    console.log(type, name, FID, designation, newUser, phone, address, sex);
-    var response = axios.post("http://localhost/api/register", {
-      type: type,
-      name: name,
-      fid: FID,
-      designation: designation,
-      email: newUser,
-      phone: phone,
-      address: address,
-      sex: sex
+    const fd = new FormData();
+    fd.append("file", selectedFile);
+    console.log(fd);
+    await axios.post(`http://localhost/api/upload/${FID}`, fd).then(res => {
+      console.log(res.data);
+      alert("Upload successful");
     });
-    console.log(response);
-    if (response.data) history.pushState("/");
-    else alert("Something went wrong");
+    console.log(type, name, FID, designation, newUser, phone, address, sex);
+    var response = await axios
+      .post("http://localhost/api/register", {
+        type: type,
+        name: name,
+        fid: FID,
+        designation: designation,
+        email: newUser,
+        phone: phone,
+        address: address,
+        sex: sex
+      })
+      .then(res => {
+        console.log(res);
+        alert("Success");
+        history.push("/");
+      })
+      .catch(alert("Something went wrong"));
   };
 
   useEffect(getFIDs, []);
+  console.log(selectedFile);
   return (
     <>
       <Nav />
@@ -92,6 +123,7 @@ const Register = () => {
                 <Form.Label>Name:</Form.Label>
                 <Form.Control
                   onChange={e => setName(e.target.value)}
+                  required
                 ></Form.Control>
               </FormGroup>
               <FormGroup>
@@ -101,6 +133,7 @@ const Register = () => {
                     checkExists(e.target.value.toUpperCase());
                     setFID(e.target.value);
                   }}
+                  required
                 ></Form.Control>
                 {exists && (
                   <p style={{ color: "red" }}>The FID is already assigned</p>
@@ -110,17 +143,19 @@ const Register = () => {
                 <Form.Label>Designation : </Form.Label>
                 <Form.Control
                   onChange={e => setDesignation(e.target.value)}
+                  required
                 ></Form.Control>
               </FormGroup>
               <FormGroup>
                 <Form.Label>Email : </Form.Label>
-                <Form.Control type='email' value={newUser}></Form.Control>
+                <Form.Control type='email' value={newUser} readOnly />
               </FormGroup>
               <FormGroup>
                 <Form.Label>Phone : </Form.Label>
                 <Form.Control
                   type='tel'
                   onChange={e => setPhone(e.target.value)}
+                  required
                 ></Form.Control>
               </FormGroup>
               <FormGroup>
@@ -128,6 +163,7 @@ const Register = () => {
                 <Form.Control
                   as='textarea'
                   rows={5}
+                  required
                   onChange={e => setAddress(e.target.value)}
                 />
               </FormGroup>
@@ -153,6 +189,51 @@ const Register = () => {
                   name='sex'
                   value='F'
                 />
+              </FormGroup>
+              <FormGroup>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    backgroundColor: "#E3F2FD",
+                    borderRadius: "10px",
+                    height: "40rem",
+                    width: "auto",
+                    textAlign: "center"
+                  }}
+                >
+                  <Image
+                    src={upload}
+                    style={{
+                      width: "15rem",
+                      height: "auto",
+                      marginTop: "1rem"
+                    }}
+                  ></Image>
+                  <Button onClick={handleClick}>Upload Image</Button>
+                  <Form.File
+                    type='file'
+                    id='input-file'
+                    ref={hiddenFileInput}
+                    hidden
+                    style={{ zIndex: "1" }}
+                    accept='image/*'
+                    onChange={e => setSelectedFile(e.target.files[0])}
+                  />
+                  {selectedFile && (
+                    <Image
+                      src={URL.createObjectURL(selectedFile)}
+                      style={{
+                        height: "15rem",
+                        width: "auto",
+                        margin: "2rem",
+                        borderRadius: "10px"
+                      }}
+                    />
+                  )}
+                </div>
               </FormGroup>
               <FormGroup
                 style={{
