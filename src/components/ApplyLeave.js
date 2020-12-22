@@ -51,8 +51,11 @@ const ApplyLeave = () => {
         alert("Leave applied successfully");
         console.log(response.data);
         const prop = response.data[2];
-        if (flag) history.push("/alternateArrangement", prop);
-        else history.push("/");
+        if (flag) {
+          history.push("/alternateArrangement", { prop, flag: "teaching" });
+        } else {
+          history.push("/alternateArrangement", { prop, flag: "nonTeaching" });
+        }
       }
     });
   };
@@ -84,6 +87,7 @@ const ApplyLeave = () => {
                 <Form.Control
                   type='date'
                   value={data.from}
+                  required
                   onChange={e => {
                     setData({ ...data, from: e.target.value });
                   }}
@@ -93,6 +97,7 @@ const ApplyLeave = () => {
                 <Form.Label>Type : </Form.Label>
                 <Form.Control
                   as='select'
+                  required
                   value={data.type}
                   onChange={e => {
                     console.log(e.target.value);
@@ -140,6 +145,7 @@ const ApplyLeave = () => {
                   <Form.Control
                     type='date'
                     value={data.to}
+                    required
                     onChange={e => {
                       setData({ ...data, to: e.target.value });
                     }}
@@ -152,6 +158,7 @@ const ApplyLeave = () => {
                 <Form.Label>Reason :</Form.Label>
                 <Form.Control
                   type='text'
+                  required
                   value={data.reason}
                   onChange={e => {
                     setData({ ...data, reason: e.target.value });
@@ -162,6 +169,7 @@ const ApplyLeave = () => {
                 <Form.Label>Contact Address when on Leave : </Form.Label>
                 <Form.Control
                   type='text'
+                  required
                   value={data.contactAdress}
                   onChange={e => {
                     setData({ ...data, contactAdress: e.target.value });

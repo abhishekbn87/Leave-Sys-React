@@ -61,27 +61,31 @@ const FacultyDetails = () => {
   return (
     <>
       <Nav />
+
       <section
         style={{
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit, minmax(500px, 1fr))",
           gap: "1rem",
-          margin: "1rem"
+          marginTop: "1rem",
+          width: "100vw"
         }}
       >
         {data.map(m => {
           if (m.fid)
             return (
-              <Card
+              <div
                 style={{
                   backgroundColor: "teal",
                   marginRight: "1rem",
                   color: "whitesmoke",
-                  padding: "0.5rem",
+                  marginLeft: "0",
+                  padding: "1rem",
+                  borderRadius: "10px",
                   maxWidth: "100vw"
                 }}
               >
-                <Card.Body>
+                <div style={{ padding: "1rem" }}>
                   <Image
                     src={m.url}
                     style={{
@@ -110,8 +114,8 @@ const FacultyDetails = () => {
                       See Leaves
                     </Button>
                   )}
-                </Card.Body>
-              </Card>
+                </div>
+              </div>
             );
         })}
       </section>

@@ -7,7 +7,8 @@ import {
   Card,
   Form,
   Button,
-  Col,
+  div,
+  Row,
   ButtonGroup
 } from "react-bootstrap";
 import Nav from "./Nav";
@@ -15,10 +16,13 @@ import { AuthContext } from "../Auth";
 
 const AlternateArrangement = () => {
   const { currentUser } = useContext(AuthContext);
+  const [isTeaching, setIsTeaching] = useState(false);
   const history = useHistory();
   console.log(currentUser.email);
   console.log(useLocation().state.from_date, useLocation().state.to_date);
-  const dates = useLocation().state;
+  const dates = useLocation().state.prop;
+
+  console.log(useLocation().state.flag);
   console.log(dates);
 
   const [faculty, setFaculty] = useState([]);
@@ -29,9 +33,15 @@ const AlternateArrangement = () => {
     );
     facultyNames = facultyNames.data;
     setFaculty(facultyNames);
+    var flag = await axios.get(
+      `http://localhost/api/checkTeaching/${currentUser.email}`
+    );
+    flag = flag.data;
+    setIsTeaching(flag);
   };
 
   useEffect(getFaculty, []);
+  console.log(isTeaching);
 
   const datesArray = [];
   dates.map(m => {
@@ -68,31 +78,53 @@ const AlternateArrangement = () => {
 
   const submitHandler = e => {
     e.preventDefault();
-    let obj = {
-      date: "",
-      semester: "",
-      section: "",
-      subject: "",
-      time: "",
-      faculty: ""
-    };
-    obj.date = dateRef.current.value;
-    obj.semester = semRef.current.value;
-    obj.subject = subRef.current.value;
-    obj.time = timeRef.current.value;
-    obj.faculty = facultyRef.current.value;
-    obj.section = secRef.current.value;
-    const url = `http://localhost/api/alternate/${currentUser.email}/${obj.date}/${obj.semester}/${obj.section}/${obj.subject}/${obj.time}/${obj.faculty}`;
-    obj = { obj };
-    axios.post(url, obj).then(response => {
-      console.log(response);
-      if (response.status == 200)
-        alert(
-          "Alternate Arrangement done!! We will let " +
-            facultyRef.current.value +
-            " know"
-        );
-    });
+    if (isTeaching) {
+      let obj = {
+        date: "",
+        semester: "",
+        section: "",
+        subject: "",
+        time: "",
+        faculty: ""
+      };
+      obj.date = dateRef.current.value;
+      obj.semester = semRef.current.value;
+      obj.subject = subRef.current.value;
+      obj.time = timeRef.current.value;
+      obj.faculty = facultyRef.current.value;
+      obj.section = secRef.current.value;
+      const url = `http://localhost/api/alternate/${currentUser.email}/${obj.date}/${obj.semester}/${obj.section}/${obj.subject}/${obj.time}/${obj.faculty}`;
+      obj = { obj };
+      axios.post(url, obj).then(response => {
+        console.log(response);
+        if (response.status == 200)
+          alert(
+            "Alternate Arrangement done!! We will let " +
+              facultyRef.current.value +
+              " know"
+          );
+      });
+    } else {
+      let obj = {
+        date: "",
+        time: "",
+        faculty: ""
+      };
+      obj.date = dateRef.current.value;
+      obj.time = timeRef.current.value;
+      obj.faculty = facultyRef.current.value;
+      const url = `http://localhost/api/nonTeachingAlternate/${currentUser.email}/${obj.date}/${obj.time}/${obj.faculty}`;
+      obj = { obj };
+      axios.post(url, obj).then(response => {
+        console.log(response);
+        if (response.status == 200)
+          alert(
+            "Alternate Arrangement done!! We will let " +
+              facultyRef.current.value +
+              " know"
+          );
+      });
+    }
   };
 
   console.log(data);
@@ -110,10 +142,20 @@ const AlternateArrangement = () => {
             <Form>
               {fields.map(field => {
                 return (
-                  <Form.Row key={field.num}>
-                    <Col>
+                  <section
+                    style={{
+                      margin: "1.5rem",
+                      display: "grid",
+                      gridTemplateColumns:
+                        "repeat(auto-fit, minmax(200px, 1fr))",
+                      gap: "0.5rem",
+                      padding: "1%"
+                    }}
+                    key={field.num}
+                  >
+                    <div>
                       <Form.Group>
-                        <Form.Label>Date : </Form.Label>
+                        <Form.Label>Date: </Form.Label>
                         <Form.Control as='select' ref={dateRef} required>
                           <option></option>
                           {datesArray.map(m => {
@@ -121,54 +163,64 @@ const AlternateArrangement = () => {
                           })}
                         </Form.Control>
                       </Form.Group>
-                    </Col>
-                    <Col>
-                      <Form.Group>
-                        <Form.Label>Semester : </Form.Label>
-                        <Form.Control
-                          as='select'
-                          ref={semRef}
-                          required
-                          onChange={() => getSubjects()}
-                        >
-                          <option></option>
-                          <option>1</option>
-                          <option>2</option>
-                          <option>3</option>
-                          <option>4</option>
-                          <option>5</option>
-                          <option>6</option>
-                          <option>7</option>
-                          <option>8</option>
-                        </Form.Control>
-                      </Form.Group>
-                    </Col>
-                    <Col>
-                      <Form.Group>
-                        <Form.Label>Section : </Form.Label>
-                        <Form.Control ref={secRef} required as='select'>
-                          <option>A</option>
-                          <option>B</option>
-                          <option>C</option>
-                        </Form.Control>
-                      </Form.Group>
-                    </Col>
-                    <Col>
-                      <Form.Group>
-                        <Form.Label>Subject : </Form.Label>
-                        <Form.Control ref={subRef} required as='select'>
-                          <option></option>
-                          {subjects.map(f => {
-                            return (
-                              <option>
-                                {f.subjectCode} - {f.subject}
-                              </option>
-                            );
-                          })}
-                        </Form.Control>
-                      </Form.Group>
-                    </Col>
-                    <Col>
+                    </div>
+
+                    {isTeaching && (
+                      <>
+                        <div>
+                          <Form.Group>
+                            <Form.Label>Semester : </Form.Label>
+                            <Form.Control
+                              as='select'
+                              ref={semRef}
+                              required
+                              onChange={() => getSubjects()}
+                            >
+                              <option></option>
+                              <option>1</option>
+                              <option>2</option>
+                              <option>3</option>
+                              <option>4</option>
+                              <option>5</option>
+                              <option>6</option>
+                              <option>7</option>
+                              <option>8</option>
+                            </Form.Control>
+                          </Form.Group>
+                        </div>
+                      </>
+                    )}
+
+                    {isTeaching && (
+                      <>
+                        <div>
+                          <Form.Group>
+                            <Form.Label>Section : </Form.Label>
+                            <Form.Control ref={secRef} required as='select'>
+                              <option>A</option>
+                              <option>B</option>
+                              <option>C</option>
+                            </Form.Control>
+                          </Form.Group>
+                        </div>
+                        <div>
+                          <Form.Group>
+                            <Form.Label>Subject : </Form.Label>
+                            <Form.Control ref={subRef} required as='select'>
+                              <option></option>
+                              {subjects.map(f => {
+                                return (
+                                  <option>
+                                    {f.subjectCode} - {f.subject}
+                                  </option>
+                                );
+                              })}
+                            </Form.Control>
+                          </Form.Group>
+                        </div>
+                      </>
+                    )}
+                    <div>
                       <Form.Group>
                         <Form.Label>Time : </Form.Label>
                         <Form.Control as='select' ref={timeRef} required>
@@ -186,8 +238,9 @@ const AlternateArrangement = () => {
                           <option>02:00 - 05:00</option>
                         </Form.Control>
                       </Form.Group>
-                    </Col>
-                    <Col>
+                    </div>
+
+                    <div>
                       <Form.Group>
                         <Form.Label>Faculty : </Form.Label>
                         <Form.Control as='select' ref={facultyRef} required>
@@ -197,38 +250,43 @@ const AlternateArrangement = () => {
                           })}
                         </Form.Control>
                       </Form.Group>
-                    </Col>
-                    <Col className='d-flex justify-content-center align-items-center mt-3'>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center"
+                      }}
+                    >
                       <Button onClick={submitHandler}>Submit</Button>
-                    </Col>
-                  </Form.Row>
+                    </div>
+                    <hr />
+                  </section>
                 );
               })}
-              <Form.Row>
-                <Container className='d-flex align-items-center justify-content-center mt-5'>
-                  <Button
-                    onClick={() => addCard()}
-                    style={{
-                      display: "inline",
-                      width: "40%",
-                      marginRight: "2%"
-                    }}
-                  >
-                    Add Field
-                  </Button>
-                  <Button
-                    onClick={() => {
-                      var c = window.confirm(
-                        "Are you sure you have made all required arrangements ? "
-                      );
-                      if (c) history.push("/");
-                      else;
-                    }}
-                  >
-                    Complete Alternate Arrangements
-                  </Button>
-                </Container>
-              </Form.Row>
+
+              <section
+                style={{
+                  margin: "1.5rem",
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+                  gap: "0.5rem",
+                  padding: "1%"
+                }}
+              >
+                <Button onClick={() => addCard()}>Add Field</Button>
+                <Button
+                  onClick={() => {
+                    var c = window.confirm(
+                      "Are you sure you have made all required arrangements ? "
+                    );
+                    if (c) history.push("/");
+                    else;
+                  }}
+                >
+                  Complete Alternate Arrangements
+                </Button>
+              </section>
             </Form>
           </Card.Body>
         </Card>

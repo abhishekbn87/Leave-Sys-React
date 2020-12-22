@@ -12,6 +12,7 @@ import CheckAlt from "./CheckAlt";
 import LeavesToday from "./LeavesToday";
 import SignUp from "./SignUp";
 import Register from "./Register";
+import ESign from "./ESign";
 
 function App() {
   return (
@@ -43,11 +44,14 @@ function App() {
           <PrivateRoute exact path='/leavesToday' component={LeavesToday}>
             <LeavesToday />
           </PrivateRoute>
-          <PrivateRoute path='/signup' component={SignUp}>
+          <PrivateRoute exact path='/signup' component={SignUp}>
             <SignUp />
           </PrivateRoute>
-          <PrivateRoute path='/register' component={Register}>
+          <PrivateRoute exact path='/register' component={Register}>
             <Register />
+          </PrivateRoute>
+          <PrivateRoute exact path='/esign' component={ESign}>
+            <ESign />
           </PrivateRoute>
           <Route path='/signin'>
             <SignIn />

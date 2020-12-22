@@ -40,7 +40,7 @@ const Nav = () => {
           }}
           onClick={() => history.push("/")}
         />
-        <p style={{ color: "whitesmoke", fontSize: "1vw", marginTop: "1rem" }}>
+        <p style={{ color: "whitesmoke", fontSize: "2vw", marginTop: "1rem" }}>
           Signed In as : {name}
         </p>
         <Navbar.Collapse className='justify-content-end'>

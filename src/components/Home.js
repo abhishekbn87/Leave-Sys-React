@@ -27,15 +27,9 @@ const Home = () => {
   const [name, setName] = useState(null);
   const [designation, setDesignation] = useState(null);
   const [isHOD, setIsHOD] = useState(false);
-  const [isNonTeaching, setIsNonTeaching] = useState(false);
   const getData = async () => {
     data = await axios.get(url);
     data = data.data;
-    var flag = await axios.get(
-      `http://localhost/api/checkTeaching/${currentUser.email}`
-    );
-    flag = flag.data;
-    if (!flag) setIsNonTeaching(true);
     if (data[0].designation) {
       setName(data[0].name);
       setDesignation(data[0].designation);
@@ -102,11 +96,10 @@ const Home = () => {
           <Button onClick={() => history.push("/facultyDetails")}>
             Faculty Details
           </Button>
-          {!isNonTeaching && (
-            <Button onClick={() => history.push("/checkAlt")}>
-              Check Alternate Arrangements
-            </Button>
-          )}
+
+          <Button onClick={() => history.push("/checkAlt")}>
+            Check Alternate Arrangements
+          </Button>
           {isHOD && (
             <Button onClick={() => history.push("/facultyDetails", true)}>
               Manage Leaves

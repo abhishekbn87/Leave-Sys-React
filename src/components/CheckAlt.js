@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Container, Table } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
+import { Container, Table, Button } from "react-bootstrap";
 import Nav from "./Nav";
 import axios from "axios";
 import { AuthContext } from "../Auth";
@@ -8,6 +9,8 @@ const CheckAlt = () => {
   const [from, setFrom] = useState([]);
   const [to, setTo] = useState([]);
   const { currentUser } = useContext(AuthContext);
+  const [isTeaching, setIsTeaching] = useState(true);
+  const history = useHistory();
 
   const getData = async () => {
     let response1 = await axios.get(
@@ -20,6 +23,11 @@ const CheckAlt = () => {
     );
     response2 = response2.data;
     setFrom(response2);
+    var flag = await axios.get(
+      `http://localhost/api/checkTeaching/${currentUser.email}`
+    );
+    flag = flag.data;
+    setIsTeaching(flag);
   };
 
   useEffect(getData, []);
@@ -54,24 +62,38 @@ const CheckAlt = () => {
           >
             <tr>
               <th>Leave applied on (yyyy/mm/dd)</th>
-              <th>Semester</th>
-              <th>Subject</th>
+              {isTeaching && <th>Semester</th>}
+              {isTeaching && <th>Subject</th>}
               <th>Time</th>
               <th>Assigned To : email</th>
               <th>Assigned To : </th>
+              <th>Approve Status</th>
             </tr>
           </thead>
           <tbody>
             {to.map(m => {
-              if (m.sem)
+              if (m.date)
                 return (
                   <tr>
                     <td>{m.date}</td>
-                    <td>{m.sem}</td>
-                    <td>{m.subject}</td>
+                    {isTeaching && <td>{m.sem}</td>}
+                    {isTeaching && <td>{m.subject}</td>}
                     <td>{m.time}</td>
                     <td>{m.email}</td>
                     <td>{m.name}</td>
+                    {m.approved ? (
+                      <td>
+                        <a
+                          href={`http://localhost/api/downloadAlt/${currentUser.email}/${m.name}/${m.date}/${m.time}`}
+                          target='_blank'
+                          download
+                        >
+                          <Button>Download Approval</Button>
+                        </a>
+                      </td>
+                    ) : (
+                      <td>Pending....</td>
+                    )}
                   </tr>
                 );
             })}
@@ -105,24 +127,42 @@ const CheckAlt = () => {
           >
             <tr>
               <th>Leave applied on (yyyy/mm/dd)</th>
-              <th>Semester</th>
-              <th>Subject</th>
+              {isTeaching && <th>Semester</th>}
+              {isTeaching && <th>Subject</th>}
               <th>Time</th>
               <th>Assigned By : email</th>
               <th>Assigned By : </th>
+              <th>Sign and Approve</th>
             </tr>
           </thead>
           <tbody>
             {from.map(m => {
-              if (m.sem)
+              if (m.date)
                 return (
                   <tr>
                     <td>{m.date}</td>
-                    <td>{m.sem}</td>
-                    <td>{m.subject}</td>
+                    {isTeaching && <td>{m.sem}</td>}
+                    {isTeaching && <td>{m.subject}</td>}
                     <td>{m.time}</td>
                     <td>{m.email}</td>
                     <td>{m.name}</td>
+                    {m.approved ? (
+                      <td>Signed and Approved</td>
+                    ) : (
+                      <td>
+                        <Button
+                          onClick={() =>
+                            history.push("/esign", {
+                              date: m.date,
+                              time: m.time,
+                              email: m.email
+                            })
+                          }
+                        >
+                          Sign Approval
+                        </Button>
+                      </td>
+                    )}
                   </tr>
                 );
             })}
